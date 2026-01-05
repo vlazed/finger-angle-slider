@@ -6,6 +6,7 @@ local xyLock = CreateClientConVar(
 	"If enabled, it locks the X and Y limits to a single value"
 )
 
+-- It's named `finger`, not `fingerposer`. got a problem with that walt?
 local fingerMode = "finger"
 
 ---@param ply Player
@@ -25,10 +26,11 @@ local function buildAngleSlider()
 
 	local margin = 10
 	function frame:PerformLayout(w, h)
-		local cpanel = spawnmenu.ActiveControlPanel():GetParent():GetParent()
+		local cpanel = spawnmenu.ActiveControlPanel()
 		if not cpanel then
 			return
 		end
+		cpanel = cpanel:GetParent():GetParent()
 
 		local x, y = cpanel:GetPos()
 		w, h = cpanel:GetSize()
@@ -111,6 +113,7 @@ end
 -- After a few ticks, vgui components should be available
 timer.Simple(0.1, function()
 	VLAZED_FINGER_ANGLE_SLIDER = buildAngleSlider()
+	VLAZED_FINGER_ANGLE_SLIDER:SetVisible(false)
 end)
 
 local function openAngleSlider()
